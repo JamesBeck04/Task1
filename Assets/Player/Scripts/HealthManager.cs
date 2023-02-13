@@ -7,6 +7,8 @@ public class HealthManager : MonoBehaviour
     [SerializeField]
     float hitPoints = 100f;
 
+
+
     void Hit(float rawDamage)
     {
         hitPoints -= rawDamage;
@@ -18,4 +20,6 @@ public class HealthManager : MonoBehaviour
             Debug.Log("TODO: GAME OVER - YOU DIED");
         }
     }
+
+
 }

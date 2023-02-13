@@ -1,0 +1,86 @@
+using UnityEngine;
+
+public class Item : MonoBehaviour
+{
+    public GameObject itemPrefab;
+    public Sprite icon;
+
+    public string itemName;
+    [TextArea(4, 16)]
+    public string description;
+
+    public float weight = 0;
+    public int quantity = 1;
+    public int maxStackableQuantity = 1; // for bundles of items, such as arrows or coins
+    [SerializeField]
+    float rawDamage;
+  
+
+    public bool isStorable = false; // if false, item will be used when picked up
+    public bool isConsumable = true; // if true, item will be destroyed (or quantity reduced) when used
+    public bool isDamaging = false; //Checks to see if item causes damage
+
+
+    void Start()
+    {
+
+    }
+
+    void Update()
+    {
+
+    }
+
+
+    public void Interact()
+    {
+        Debug.Log("Picked up " + transform.name);
+
+        if (isStorable)
+        {
+            Store();
+        }
+        else
+        {
+            Use();
+        }
+    }
+
+    void Store()
+    {
+        Debug.Log("Storing " + transform.name);
+
+        // ToDo
+
+        Destroy(gameObject);
+    }
+
+    void Use()
+    {
+        if (isConsumable)
+        {
+            quantity--;
+            if (quantity <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    void OnTriggerEnter(Collider damage)
+    {
+        if (isDamaging)
+        {
+            Debug.Log("You took " + rawDamage + " damage");
+            damage.gameObject.SendMessage("Hit", rawDamage, SendMessageOptions.DontRequireReceiver);
+            Destroy(gameObject);
+
+        }
+ 
+    }
+
+
+
+
+
+}
