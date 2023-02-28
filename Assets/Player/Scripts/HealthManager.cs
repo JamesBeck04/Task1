@@ -8,6 +8,9 @@ public class HealthManager : MonoBehaviour
 
     public Slider healthSlider;
 
+    [SerializeField] GameObject HealthBar;
+    [SerializeField] GameObject GameOverpanel;
+
     void Start()
     {
         hitPoints = maxHitPoints;
@@ -22,6 +25,10 @@ public class HealthManager : MonoBehaviour
 
         if (hitPoints <= 0)
         {
+            HealthBar.SetActive(false);
+            GameOverpanel.SetActive(true);
+            Cursor.visible = true;
+            Time.timeScale = 0f;
             Debug.Log("TODO: GAME OVER - YOU DIED");
         }
     }

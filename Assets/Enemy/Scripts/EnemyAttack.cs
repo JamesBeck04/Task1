@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyAttack : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class EnemyAttack : MonoBehaviour
     Transform gunTransform;
     float maxDistanceToTarget = 6f;
     float distanceToTarget;
+
+    //movement
+    public NavMeshAgent enemy;
+    public Transform Player;
 
     [SerializeField]
     float rawDamage = 10f;
@@ -26,6 +31,7 @@ public class EnemyAttack : MonoBehaviour
 
     void Update()
     {
+ 
         Attack();
     }
 
@@ -60,6 +66,10 @@ public class EnemyAttack : MonoBehaviour
 
             if (attackReady)
             {
+
+                enemy.SetDestination(Player.position);
+
+
                 tick = 0f;
                 Ray ray = new Ray(gunTransform.position, gunTransform.forward);
                 RaycastHit raycastHit;
