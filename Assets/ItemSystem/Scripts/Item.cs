@@ -62,6 +62,7 @@ public class Item : MonoBehaviour
             quantity--;
             if (quantity <= 0)
             {
+
                 Destroy(gameObject);
             }
         }

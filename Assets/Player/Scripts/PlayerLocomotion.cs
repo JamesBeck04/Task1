@@ -15,11 +15,15 @@ public class PlayerLocomotion : MonoBehaviour
     public float lookUpClamp = -30f;
     public float lookDownClamp = 60f;
 
+
+
+
     private Vector3 moveDirection = Vector3.zero;
     float rotateX, rotateY;
 
     void Start()
     {
+        GameManager.ResetGame();
         Cursor.visible = false;
         characterController = GetComponent<CharacterController>();
         SetCurrentCamera();
@@ -31,6 +35,12 @@ public class PlayerLocomotion : MonoBehaviour
         RotateAndLook();
 
         PerspectiveCheck();
+
+        Cursor.lockState = CursorLockMode.Confined;
+
+        //Press the space bar to apply no locking to the Cursor
+        if (Input.GetKey(KeyCode.Delete))
+            Cursor.lockState = CursorLockMode.None;
     }
 
     void SetCurrentCamera()
@@ -79,8 +89,9 @@ public class PlayerLocomotion : MonoBehaviour
 
     void RotateAndLook()
     {
-        rotateX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        rotateY -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+        rotateX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.timeScale;
+        rotateY -= Input.GetAxis("Mouse Y") * mouseSensitivity * Time.timeScale;
 
         rotateY = Mathf.Clamp(rotateY, lookUpClamp, lookDownClamp);
 
@@ -110,4 +121,6 @@ public class PlayerLocomotion : MonoBehaviour
             }
         }
     }
+
+
 }

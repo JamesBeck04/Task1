@@ -15,6 +15,8 @@ public class MenuController : MonoBehaviour
     [SerializeField] bool IsPauseMenuAvailable = false;
     [HideInInspector] public static bool IsGamePaused = false;
 
+  
+
     void Update()
     {
         PauseMenu();
