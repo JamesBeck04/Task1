@@ -8,12 +8,12 @@ public class EnemyAttack : MonoBehaviour
     [SerializeField]
     Transform playerTransform;
     Transform gunTransform;
-    float maxDistanceToTarget = 6f;
+    public float maxDistanceToTarget = 6f;
     float distanceToTarget;
+    public bool moveable = true;
 
     //movement
     public NavMeshAgent enemy;
-    public Transform Player;
 
     [SerializeField]
     float rawDamage = 10f;
@@ -62,31 +62,62 @@ public class EnemyAttack : MonoBehaviour
 
         if (distanceToTarget <= maxDistanceToTarget)
         {
-            LookAtTarget();
-
-            if (attackReady)
+            
+            if (moveable == true)
             {
-
-                enemy.SetDestination(Player.position);
-
-
-                tick = 0f;
-                Ray ray = new Ray(gunTransform.position, gunTransform.forward);
-                RaycastHit raycastHit;
-
-                if (Physics.Raycast(ray, out raycastHit, maxDistanceToTarget))
+                LookAtTarget();
+                if (attackReady)
                 {
-                    Debug.Log("Enemy Shoots");
-                    if (raycastHit.transform != null)
+
+                    enemy.SetDestination(playerTransform.position);
+
+
+                    tick = 0f;
+                    Ray ray = new Ray(gunTransform.position, gunTransform.forward);
+                    RaycastHit raycastHit;
+
+                    if (Physics.Raycast(ray, out raycastHit, maxDistanceToTarget))
                     {
-                        raycastHit.collider.SendMessageUpwards("Hit", rawDamage, SendMessageOptions.DontRequireReceiver);
+                        Debug.Log("Enemy Shoots");
+                        if (raycastHit.transform != null)
+                        {
+                            raycastHit.collider.SendMessageUpwards("Hit", rawDamage, SendMessageOptions.DontRequireReceiver);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("ENEMY: FAILED RAYCAST");
                     }
                 }
-                else
+            }
+            else
+            {
+                LookAtTarget();
+                if (attackReady)
                 {
-                    Debug.Log("ENEMY: FAILED RAYCAST");
+
+                    
+
+
+                    tick = 0f;
+                    Ray ray = new Ray(gunTransform.position, gunTransform.forward);
+                    RaycastHit raycastHit;
+
+                    if (Physics.Raycast(ray, out raycastHit, maxDistanceToTarget))
+                    {
+                        Debug.Log("Enemy Shoots");
+                        if (raycastHit.transform != null)
+                        {
+                            raycastHit.collider.SendMessageUpwards("Hit", rawDamage, SendMessageOptions.DontRequireReceiver);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("ENEMY: FAILED RAYCAST");
+                    }
                 }
             }
+            
         }
     }
 }
